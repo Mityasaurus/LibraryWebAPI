@@ -1,13 +1,8 @@
 ﻿using LibraryWebAPI.Infrastructure.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LibraryWebAPI.BusinessLogic.Dtos
 {
-    internal class BookDto : IEquatable<BookDto>
+    public class BookDto : IEquatable<BookDto>
     {
         public static readonly BookDto Default =
             new(string.Empty, string.Empty, Genre.None, DateTime.MinValue, string.Empty);
