@@ -14,19 +14,19 @@ namespace LibraryWebAPI.DataAccess
             [
                 new AuthorEntity
                 {
-                    Id = "1",
+                    Id = Guid.NewGuid().ToString(),
                     Name = "George",
                     Lastname = "Orwell"
                 },
                 new AuthorEntity
                 {
-                    Id = "2",
+                    Id = Guid.NewGuid().ToString(),
                     Name = "Dale",
                     Lastname = "Carnegie"
                 },
                 new AuthorEntity
                 {
-                    Id = "3",
+                    Id = Guid.NewGuid().ToString(),
                     Name = "Ernest",
                     Lastname = "Hemingway"
                 }
