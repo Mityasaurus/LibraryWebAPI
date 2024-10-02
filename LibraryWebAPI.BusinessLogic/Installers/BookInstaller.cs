@@ -1,4 +1,5 @@
-﻿using LibraryWebAPI.BusinessLogic.Contracts;
+﻿using LibraryWebAPI.BusinessLogic.Builder;
+using LibraryWebAPI.BusinessLogic.Contracts;
 using LibraryWebAPI.BusinessLogic.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,7 +9,8 @@ namespace LibraryWebAPI.BusinessLogic.Installers
     {
         public static IServiceCollection AddBooks(this IServiceCollection services)
         {
-            services.AddScoped<IBookService, BookService>();
+            services.AddScoped<IBookService, BookService>()
+                .AddScoped<IBookBuilder, BookBuilder>();
             return services;
         }
     }
