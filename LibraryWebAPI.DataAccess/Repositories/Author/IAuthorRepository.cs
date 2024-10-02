@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LibraryWebAPI.DataAccess.Repositories.Author
 {
-    public interface IAuthorRepository
+    public interface IAuthorRepository : IRepository<AuthorEntity>
     {
         public Task<ReadOnlyCollection<AuthorEntity>> GetAll();
         public Task<AuthorEntity?> Get(string id);

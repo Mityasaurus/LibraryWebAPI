@@ -2,9 +2,8 @@
 
 namespace LibraryWebAPI.DataAccess.Entities
 {
-    public class BookEntity
+    public class BookEntity : BaseEntity
     {
-        public string Id { get; init; }
         public string Title { get; set; }
         public Genre Genre { get; set; } 
         public DateTime PublishedDate { get; set; }
