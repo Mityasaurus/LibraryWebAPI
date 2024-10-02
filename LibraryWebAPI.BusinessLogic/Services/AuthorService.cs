@@ -13,7 +13,7 @@ namespace LibraryWebAPI.BusinessLogic.Services
 
         public AuthorService(LibraryContext context)
         {
-            var factory = RepositoryFactory.Instance();
+            var factory = RepositoryFactory.Instance;
             _authorRepository = (IAuthorRepository)factory.Instantiate<AuthorEntity>(context);
         }
 

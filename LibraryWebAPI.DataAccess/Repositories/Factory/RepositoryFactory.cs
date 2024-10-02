@@ -7,26 +7,11 @@ namespace LibraryWebAPI.DataAccess.Repositories.Factory
 {
     public sealed class RepositoryFactory : IRepositoryFactory
     {
-        private static IRepositoryFactory _instance;
+        private static readonly Lazy<IRepositoryFactory> _instance = new(() => new RepositoryFactory());
 
-        private static readonly object Locker = new();
+        public static IRepositoryFactory Instance => _instance.Value;
 
         private RepositoryFactory() { }
-
-        public static IRepositoryFactory Instance()
-        {
-            if(_instance != null)
-            {
-                return _instance;
-            }
-
-            lock(Locker)
-            {
-                _instance ??= new RepositoryFactory();
-            }
-
-            return _instance;
-        }
 
         public IRepository<TEntity> Instantiate<TEntity>(LibraryContext context) where TEntity : BaseEntity
         {
@@ -37,6 +22,5 @@ namespace LibraryWebAPI.DataAccess.Repositories.Factory
                 _ => throw new UnsupportedRepositoryTypeException(typeof(TEntity).Name)
             };
         }
-
     }
 }

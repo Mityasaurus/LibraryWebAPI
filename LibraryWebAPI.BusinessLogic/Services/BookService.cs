@@ -16,7 +16,7 @@ namespace LibraryWebAPI.BusinessLogic.Services
 
         public BookService(LibraryContext context)
         {
-            var factory = RepositoryFactory.Instance();
+            var factory = RepositoryFactory.Instance;
             _authorRepository = (IAuthorRepository)factory.Instantiate<AuthorEntity>(context);
             _bookRepository = (IBookRepository)factory.Instantiate<BookEntity>(context);
         }
