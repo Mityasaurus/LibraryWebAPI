@@ -1,8 +1,10 @@
 ﻿using LibraryWebAPI.BusinessLogic.Contracts;
 using LibraryWebAPI.BusinessLogic.Dtos;
+using LibraryWebAPI.DataAccess;
 using LibraryWebAPI.DataAccess.Entities;
 using LibraryWebAPI.DataAccess.Repositories.Author;
 using LibraryWebAPI.DataAccess.Repositories.Book;
+using LibraryWebAPI.DataAccess.Repositories.Factory;
 using LibraryWebAPI.Infrastructure.Enums;
 
 namespace LibraryWebAPI.BusinessLogic.Services
@@ -12,10 +14,11 @@ namespace LibraryWebAPI.BusinessLogic.Services
         private readonly IAuthorRepository _authorRepository;
         private readonly IBookRepository _bookRepository;
 
-        public BookService(IAuthorRepository authorRepository, IBookRepository bookRepository)
+        public BookService(LibraryContext context)
         {
-            _authorRepository = authorRepository;
-            _bookRepository = bookRepository;
+            var factory = RepositoryFactory.Instance;
+            _authorRepository = (IAuthorRepository)factory.Instantiate<AuthorEntity>(context);
+            _bookRepository = (IBookRepository)factory.Instantiate<BookEntity>(context);
         }
 
         public async Task<IReadOnlyList<BookDto>> GetAll()

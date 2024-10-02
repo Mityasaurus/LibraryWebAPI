@@ -1,4 +1,5 @@
-﻿using LibraryWebAPI.BusinessLogic.Contracts;
+﻿using LibraryWebAPI.BusinessLogic.Builder;
+using LibraryWebAPI.BusinessLogic.Contracts;
 using LibraryWebAPI.BusinessLogic.Dtos;
 using LibraryWebAPI.Infrastructure.Enums;
 using LibraryWebAPI.Models.Books;
@@ -12,11 +13,13 @@ namespace LibraryWebAPI.Controllers
     {
         private readonly ILogger<BookController> _logger;
         private readonly IBookService _bookService;
+        private readonly IBookBuilder _bookBuilder;
 
-        public BookController(ILogger<BookController> logger, IBookService bookService)
+        public BookController(ILogger<BookController> logger, IBookService bookService, IBookBuilder bookBuilder)
         {
             _logger = logger;
             _bookService = bookService;
+            _bookBuilder = bookBuilder;
         }
 
         [HttpGet("get", Name = "GetBook")]
@@ -67,12 +70,11 @@ namespace LibraryWebAPI.Controllers
         [HttpPost("addBook", Name = "AddBook")]
         public async Task<ActionResult> AddBook([FromBody] CreateBookRequest request)
         {
-            var entity = new BookDto(
-                id: Guid.NewGuid().ToString(),
-                title: request.Title,
-                genre: request.Genre,
-                publishedDate: request.PublishedDate,
-                authorId: request.AuthorId);
+            var entity = _bookBuilder.SetTitle(request.Title)
+                                     .SetGenre(request.Genre)
+                                     .SetPublishedDate(request.PublishedDate)
+                                     .SetAuthorId(request.AuthorId)
+                                     .Build();
 
             try
             {
@@ -90,12 +92,12 @@ namespace LibraryWebAPI.Controllers
         [HttpPut("updateBook", Name = "UpdateBook")]
         public async Task<ActionResult> UpdateBook([FromBody] UpdateBookRequest request)
         {
-            var entity = new BookDto(
-                id: request.Id,
-                title: request.Title,
-                genre: request.Genre,
-                publishedDate: request.PublishedDate,
-                authorId: request.AuthorId);
+            var entity = _bookBuilder.SetId(request.Id)
+                                     .SetTitle(request.Title)
+                                     .SetGenre(request.Genre)
+                                     .SetPublishedDate(request.PublishedDate)
+                                     .SetAuthorId(request.AuthorId)
+                                     .Build();
 
             try
             {

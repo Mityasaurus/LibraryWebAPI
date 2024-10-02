@@ -1,8 +1,7 @@
 ﻿namespace LibraryWebAPI.DataAccess.Entities
 {
-    public class AuthorEntity
+    public class AuthorEntity : BaseEntity
     {
-        public string Id { get; init; }
         public string Name { get; set; }
         public string Lastname { get; set; }
     }

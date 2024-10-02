@@ -9,9 +9,9 @@ namespace LibraryWebAPI.DataAccess.Installers
         public static IServiceCollection AddDataContext(this IServiceCollection services)
         {
             services
-                .AddSingleton<LibraryContext>()
-                .AddTransient<IAuthorRepository, AuthorRepository>()
-                .AddTransient<IBookRepository, BookRepository>();
+                .AddSingleton<LibraryContext>();
+                //.AddTransient<IAuthorRepository, AuthorRepository>()
+                //.AddTransient<IBookRepository, BookRepository>();
 
             return services;
         }

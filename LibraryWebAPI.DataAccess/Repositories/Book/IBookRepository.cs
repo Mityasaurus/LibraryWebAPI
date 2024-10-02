@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace LibraryWebAPI.DataAccess.Repositories.Book
 {
-    public interface IBookRepository
+    public interface IBookRepository : IRepository<BookEntity>
     {
         public Task<ReadOnlyCollection<BookEntity>> GetAll();
         public Task<BookEntity?> Get(string id);
