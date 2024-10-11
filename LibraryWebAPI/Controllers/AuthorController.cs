@@ -1,6 +1,5 @@
-﻿using LibraryWebAPI.BusinessLogic.Builder;
-using LibraryWebAPI.BusinessLogic.Contracts;
-using LibraryWebAPI.BusinessLogic.Dtos;
+﻿using LibraryWebAPI.BusinessLogic.Dtos;
+using LibraryWebAPI.BusinessLogic.Facade;
 using LibraryWebAPI.Models.Authors;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,12 +10,12 @@ namespace LibraryWebAPI.Controllers
     public class AuthorController : ControllerBase
     {
         private readonly ILogger<AuthorController> _logger;
-        private readonly IAuthorService _authorService;
+        private readonly ILibraryFacade _libraryFacade;
 
-        public AuthorController(ILogger<AuthorController> logger, IAuthorService authorService)
+        public AuthorController(ILogger<AuthorController> logger, ILibraryFacade libraryFacade)
         {
             _logger = logger;
-            _authorService = authorService;
+            _libraryFacade = libraryFacade;
         }
 
         [HttpGet("get", Name = "GetAuthor")]
@@ -24,7 +23,7 @@ namespace LibraryWebAPI.Controllers
         {
             try
             {
-                var result = await _authorService.GetAll();
+                var result = await _libraryFacade.GetAllAuthors();
                 return Ok(result);
             }
             catch (Exception ex)
@@ -39,12 +38,12 @@ namespace LibraryWebAPI.Controllers
         {
             try
             {
-                var result = await _authorService.Get(id);
+                var result = await _libraryFacade.GetAuthor(id);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Failed to fetch authors");
+                _logger.LogError(ex, $"Failed to fetch author with id={id}");
                 return BadRequest();
             }
         }
@@ -59,11 +58,11 @@ namespace LibraryWebAPI.Controllers
 
             try
             {
-                await _authorService.Add(entity);
+                await _libraryFacade.AddAuthor(entity);
                 _logger.LogInformation($"Author {entity.Id} successfully created");
                 return Ok();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, $"Failed to create author with id={entity.Id}");
                 return BadRequest();
@@ -80,7 +79,7 @@ namespace LibraryWebAPI.Controllers
 
             try
             {
-                await _authorService.Update(entity);
+                await _libraryFacade.UpdateAuthor(entity);
                 _logger.LogInformation($"Author {entity.Id} successfully updated");
                 return Ok();
             }
@@ -91,16 +90,16 @@ namespace LibraryWebAPI.Controllers
             }
         }
 
-        [HttpDelete("deleteAuthor", Name = "DeleteAuthor")]
-        public async Task<ActionResult> DeleteAuthor(string id)
+        [HttpDelete("deleteAuthor/{id}", Name = "DeleteAuthor")]
+        public async Task<ActionResult> DeleteAuthor([FromRoute] string id)
         {
             try
             {
-                await _authorService.Delete(id);
+                await _libraryFacade.DeleteAuthor(id);
                 _logger.LogInformation($"Author {id} successfully deleted");
                 return Ok();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, $"Failed to delete author with id={id}");
                 return BadRequest();

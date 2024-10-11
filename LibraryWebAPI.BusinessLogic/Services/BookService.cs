@@ -49,20 +49,6 @@ namespace LibraryWebAPI.BusinessLogic.Services
                 authorId: book.AuthorId);
         }
 
-        public async Task<IReadOnlyList<BookDto>> GetByGenre(Genre genre)
-        {
-            var books = await _bookRepository.Get(b => b.Genre == genre);
-            if (books == null || books.Count == 0)
-                return [];
-
-            return books.Select(b => new BookDto(
-                id: b.Id,
-                title: b.Title,
-                genre: b.Genre,
-                publishedDate: b.PublishedDate,
-                authorId: b.AuthorId)).ToList().AsReadOnly();
-        }
-
         public async Task Add(BookDto bookDto)
         {
             if (bookDto == BookDto.Default)
