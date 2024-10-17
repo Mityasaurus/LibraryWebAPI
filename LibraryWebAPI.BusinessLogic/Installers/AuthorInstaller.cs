@@ -1,5 +1,6 @@
 ﻿using LibraryWebAPI.BusinessLogic.Contracts;
 using LibraryWebAPI.BusinessLogic.Services;
+using LibraryWebAPI.BusinessLogic.Services.Proxy;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LibraryWebAPI.BusinessLogic.Installers
@@ -8,7 +9,8 @@ namespace LibraryWebAPI.BusinessLogic.Installers
     {
         public static IServiceCollection AddAuthors(this IServiceCollection services)
         {
-            services.AddScoped<IAuthorService, AuthorService>();
+            services.AddSingleton<AuthorService>();
+            services.AddSingleton<IAuthorService, AuthorServiceProxy>();
             return services;
         }
     }
