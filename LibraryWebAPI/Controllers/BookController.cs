@@ -1,6 +1,6 @@
 ﻿using LibraryWebAPI.BusinessLogic.Builder;
-using LibraryWebAPI.BusinessLogic.Contracts;
 using LibraryWebAPI.BusinessLogic.Dtos;
+using LibraryWebAPI.BusinessLogic.Facade;
 using LibraryWebAPI.Infrastructure.Enums;
 using LibraryWebAPI.Models.Books;
 using Microsoft.AspNetCore.Mvc;
@@ -12,13 +12,13 @@ namespace LibraryWebAPI.Controllers
     public class BookController : ControllerBase
     {
         private readonly ILogger<BookController> _logger;
-        private readonly IBookService _bookService;
+        private readonly ILibraryFacade _libraryFacade;
         private readonly IBookBuilder _bookBuilder;
 
-        public BookController(ILogger<BookController> logger, IBookService bookService, IBookBuilder bookBuilder)
+        public BookController(ILogger<BookController> logger, ILibraryFacade libraryFacade, IBookBuilder bookBuilder)
         {
             _logger = logger;
-            _bookService = bookService;
+            _libraryFacade = libraryFacade;
             _bookBuilder = bookBuilder;
         }
 
@@ -27,7 +27,7 @@ namespace LibraryWebAPI.Controllers
         {
             try
             {
-                var result = await _bookService.GetAll();
+                var result = await _libraryFacade.GetAllBooks();
                 return Ok(result);
             }
             catch (Exception ex)
@@ -42,12 +42,12 @@ namespace LibraryWebAPI.Controllers
         {
             try
             {
-                var result = await _bookService.Get(id);
+                var result = await _libraryFacade.GetBook(id);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Failed to fetch books");
+                _logger.LogError(ex, $"Failed to fetch book with id={id}");
                 return BadRequest();
             }
         }
@@ -57,12 +57,12 @@ namespace LibraryWebAPI.Controllers
         {
             try
             {
-                var result = await _bookService.GetByGenre(genre);
+                var result = await _libraryFacade.GetBooksByGenre(genre);
                 return Ok(result);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                _logger.LogError(ex, $"Failed to fetch books");
+                _logger.LogError(ex, $"Failed to fetch books by genre");
                 return BadRequest();
             }
         }
@@ -78,7 +78,7 @@ namespace LibraryWebAPI.Controllers
 
             try
             {
-                await _bookService.Add(entity);
+                await _libraryFacade.AddBook(entity);
                 _logger.LogInformation($"Book {entity.Id} successfully created");
                 return Ok();
             }
@@ -101,7 +101,7 @@ namespace LibraryWebAPI.Controllers
 
             try
             {
-                await _bookService.Update(entity);
+                await _libraryFacade.UpdateBook(entity);
                 _logger.LogInformation($"Book {entity.Id} successfully updated");
                 return Ok();
             }
@@ -117,7 +117,7 @@ namespace LibraryWebAPI.Controllers
         {
             try
             {
-                await _bookService.Delete(id);
+                await _libraryFacade.DeleteBook(id);
                 _logger.LogInformation($"Book {id} successfully deleted");
                 return Ok();
             }
