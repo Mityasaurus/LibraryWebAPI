@@ -1,8 +1,9 @@
-﻿using LibraryWebAPI.Infrastructure.Enums;
+﻿using LibraryWebAPI.BusinessLogic.Visitor;
+using LibraryWebAPI.Infrastructure.Enums;
 
 namespace LibraryWebAPI.BusinessLogic.Dtos
 {
-    public class BookDto : IEquatable<BookDto>
+    public class BookDto : IEquatable<BookDto>, IVisitable
     {
         public static readonly BookDto Default =
             new(string.Empty, string.Empty, Genre.None, DateTime.MinValue, string.Empty);
@@ -33,6 +34,11 @@ namespace LibraryWebAPI.BusinessLogic.Dtos
         public override int GetHashCode()
         {
             return HashCode.Combine(Id, Title, Genre, PublishedDate, AuthorId);
+        }
+
+        public void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }

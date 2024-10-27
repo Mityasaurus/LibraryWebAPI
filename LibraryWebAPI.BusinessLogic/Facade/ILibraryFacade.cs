@@ -17,5 +17,6 @@ namespace LibraryWebAPI.BusinessLogic.Facade
         Task AddBook(BookDto bookDto);
         Task UpdateBook(BookDto bookDto);
         Task DeleteBook(string id);
+        Task<StatisticsDto> GetStatistics();
     }
 }

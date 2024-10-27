@@ -1,5 +1,6 @@
 ﻿using LibraryWebAPI.BusinessLogic.Contracts;
 using LibraryWebAPI.BusinessLogic.Dtos;
+using LibraryWebAPI.BusinessLogic.Visitor;
 using LibraryWebAPI.Infrastructure.Enums;
 
 namespace LibraryWebAPI.BusinessLogic.Facade
@@ -65,6 +66,30 @@ namespace LibraryWebAPI.BusinessLogic.Facade
         public async Task DeleteBook(string bookId)
         {
             await _bookService.Delete(bookId);
+        }
+
+        public async Task<StatisticsDto> GetStatistics()
+        {
+            var authors = await _authorService.GetAll();
+            var books = await _bookService.GetAll();
+
+            var visitor = new StatisticsVisitor();
+
+            foreach (var author in authors)
+            {
+                author.Accept(visitor);
+            }
+
+            foreach (var book in books)
+            {
+                book.Accept(visitor);
+            }
+
+            var statistics = new StatisticsDto(
+                authorsCount: visitor.AuthorCount,
+                booksCount: visitor.BookCount);
+
+            return statistics;
         }
     }
 }
