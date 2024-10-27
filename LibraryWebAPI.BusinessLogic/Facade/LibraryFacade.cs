@@ -1,14 +1,26 @@
-﻿using LibraryWebAPI.BusinessLogic.Contracts;
+﻿using LibraryWebAPI.BusinessLogic.ChainOfResponsibility.Book;
+using LibraryWebAPI.BusinessLogic.ChainOfResponsibility.Book.Handlers;
+using LibraryWebAPI.BusinessLogic.Contracts;
 using LibraryWebAPI.BusinessLogic.Dtos;
 using LibraryWebAPI.BusinessLogic.Visitor;
 using LibraryWebAPI.Infrastructure.Enums;
 
 namespace LibraryWebAPI.BusinessLogic.Facade
 {
-    public class LibraryFacade(IAuthorService authorService, IBookService bookService) : ILibraryFacade
+    public class LibraryFacade : ILibraryFacade
     {
-        private readonly IAuthorService _authorService = authorService;
-        private readonly IBookService _bookService = bookService;
+        private readonly IAuthorService _authorService;
+        private readonly IBookService _bookService;
+        private readonly IBookHandler _bookHandler;
+
+        public LibraryFacade(IAuthorService authorService, IBookService bookService)
+        {
+            _authorService = authorService;
+            _bookService = bookService;
+            _bookHandler = new BookValidationHandler();
+            _bookHandler.SetNext(new AuthorExistenceHandler(authorService))
+                        .SetNext(new BookAdditionHandler(bookService));
+        }
 
         //Authors methods
         public async Task<IReadOnlyList<AuthorDto>> GetAllAuthors()
@@ -55,7 +67,7 @@ namespace LibraryWebAPI.BusinessLogic.Facade
 
         public async Task AddBook(BookDto bookDto)
         {
-            await _bookService.Add(bookDto);
+            await _bookHandler.Handle(bookDto);
         }
 
         public async Task UpdateBook(BookDto bookDto)
