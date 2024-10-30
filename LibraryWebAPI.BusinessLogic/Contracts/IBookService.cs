@@ -10,5 +10,7 @@ namespace LibraryWebAPI.BusinessLogic.Contracts
         Task Add(BookDto bookDto);
         Task Update(BookDto bookDto);
         Task Delete(string id);
+        Task<IReadOnlyList<BookDto>> GetByTitle(string title);
+        Task<IReadOnlyList<BookDto>> GetByGenre(Genre genre);
     }
 }

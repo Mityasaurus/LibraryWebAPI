@@ -2,6 +2,7 @@
 using LibraryWebAPI.BusinessLogic.ChainOfResponsibility.Book.Handlers;
 using LibraryWebAPI.BusinessLogic.Contracts;
 using LibraryWebAPI.BusinessLogic.Dtos;
+using LibraryWebAPI.BusinessLogic.Strategy.Search;
 using LibraryWebAPI.BusinessLogic.Visitor;
 using LibraryWebAPI.Infrastructure.Enums;
 
@@ -61,8 +62,12 @@ namespace LibraryWebAPI.BusinessLogic.Facade
 
         public async Task<IReadOnlyList<BookDto>> GetBooksByGenre(Genre bookGenre)
         {
-            var books = await _bookService.GetAll();
-            return books.Where(b => b.Genre == bookGenre).ToList();
+            return await _bookService.GetByGenre(bookGenre);
+        }
+
+        public async Task<IReadOnlyList<BookDto>> GetBooksByTitle(string bookTitle)
+        {
+            return await _bookService.GetByTitle(bookTitle);
         }
 
         public async Task AddBook(BookDto bookDto)
@@ -102,6 +107,25 @@ namespace LibraryWebAPI.BusinessLogic.Facade
                 booksCount: visitor.BookCount);
 
             return statistics;
+        }
+
+        public async Task<IReadOnlyList<BookDto>> SearchBooks(string criteria, BookSearchType searchType)
+        {
+            var searchContext = new SearchContext();
+
+            switch (searchType)
+            {
+                case BookSearchType.Title:
+                    searchContext.SetSearchStrategy(new SearchByTitleStrategy(_bookService));
+                    break;
+                case BookSearchType.Genre:
+                    searchContext.SetSearchStrategy(new SearchByGenreStrategy(_bookService));
+                    break;
+                default:
+                    throw new ArgumentException("Invalid search type specified.");
+            }
+
+            return await searchContext.SearchAsync(criteria);
         }
     }
 }

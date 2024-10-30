@@ -98,5 +98,17 @@ namespace LibraryWebAPI.BusinessLogic.Services
 
             await _bookRepository.Delete(id);
         }
+
+        public async Task<IReadOnlyList<BookDto>> GetByTitle(string title)
+        {
+            var books = await GetAll();
+            return books.Where(b => b.Title.Contains(title, StringComparison.CurrentCultureIgnoreCase)).ToList();
+        }
+
+        public async Task<IReadOnlyList<BookDto>> GetByGenre(Genre genre)
+        {
+            var books = await GetAll();
+            return books.Where(b => b.Genre == genre).ToList();
+        }
     }
 }
