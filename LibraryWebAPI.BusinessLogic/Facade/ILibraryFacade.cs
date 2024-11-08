@@ -14,8 +14,12 @@ namespace LibraryWebAPI.BusinessLogic.Facade
         Task<IReadOnlyList<BookDto>> GetAllBooks();
         Task<BookDto> GetBook(string id);
         Task<IReadOnlyList<BookDto>> GetBooksByGenre(Genre genre);
+        Task<IReadOnlyList<BookDto>> GetBooksByTitle(string title);
         Task AddBook(BookDto bookDto);
         Task UpdateBook(BookDto bookDto);
         Task DeleteBook(string id);
+
+        Task<StatisticsDto> GetStatistics();
+        Task<IReadOnlyList<BookDto>> SearchBooks(string criteria, BookSearchType searchType);
     }
 }

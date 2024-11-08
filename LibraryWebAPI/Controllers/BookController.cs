@@ -52,20 +52,20 @@ namespace LibraryWebAPI.Controllers
             }
         }
 
-        [HttpGet("getByGenre/{genre}", Name = "GetBookByGenre")]
-        public async Task<ActionResult<IEnumerable<BookDto>>> GetBookByGenre(Genre genre)
-        {
-            try
-            {
-                var result = await _libraryFacade.GetBooksByGenre(genre);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Failed to fetch books by genre");
-                return BadRequest();
-            }
-        }
+        //[HttpGet("getByGenre/{genre}", Name = "GetBookByGenre")]
+        //public async Task<ActionResult<IEnumerable<BookDto>>> GetBookByGenre(Genre genre)
+        //{
+        //    try
+        //    {
+        //        var result = await _libraryFacade.GetBooksByGenre(genre);
+        //        return Ok(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, $"Failed to fetch books by genre");
+        //        return BadRequest();
+        //    }
+        //}
 
         [HttpPost("addBook", Name = "AddBook")]
         public async Task<ActionResult> AddBook([FromBody] CreateBookRequest request)
@@ -124,6 +124,36 @@ namespace LibraryWebAPI.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Failed to delete book with id={id}");
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("searchByGenre", Name = "SearchBooksByGenre")]
+        public async Task<ActionResult<IEnumerable<BookDto>>> SearchBooksByGenre(Genre genre)
+        {
+            try
+            {
+                var result = await _libraryFacade.SearchBooks(genre.ToString(), BookSearchType.Genre);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Failed to search books by genre={genre}");
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("searchByTitle", Name = "SearchBooksByTitle")]
+        public async Task<ActionResult<IEnumerable<BookDto>>> SearchBooksByTitle(string title)
+        {
+            try
+            {
+                var result = await _libraryFacade.SearchBooks(title, BookSearchType.Title);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Failed to search books by title={title}");
                 return BadRequest();
             }
         }

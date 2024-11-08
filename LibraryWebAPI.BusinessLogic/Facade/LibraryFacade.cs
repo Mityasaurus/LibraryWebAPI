@@ -1,13 +1,27 @@
-﻿using LibraryWebAPI.BusinessLogic.Contracts;
+﻿using LibraryWebAPI.BusinessLogic.ChainOfResponsibility.Book;
+using LibraryWebAPI.BusinessLogic.ChainOfResponsibility.Book.Handlers;
+using LibraryWebAPI.BusinessLogic.Contracts;
 using LibraryWebAPI.BusinessLogic.Dtos;
+using LibraryWebAPI.BusinessLogic.Strategy.Search;
+using LibraryWebAPI.BusinessLogic.Visitor;
 using LibraryWebAPI.Infrastructure.Enums;
 
 namespace LibraryWebAPI.BusinessLogic.Facade
 {
-    public class LibraryFacade(IAuthorService authorService, IBookService bookService) : ILibraryFacade
+    public class LibraryFacade : ILibraryFacade
     {
-        private readonly IAuthorService _authorService = authorService;
-        private readonly IBookService _bookService = bookService;
+        private readonly IAuthorService _authorService;
+        private readonly IBookService _bookService;
+        private readonly IBookHandler _bookHandler;
+
+        public LibraryFacade(IAuthorService authorService, IBookService bookService)
+        {
+            _authorService = authorService;
+            _bookService = bookService;
+            _bookHandler = new BookValidationHandler();
+            _bookHandler.SetNext(new AuthorExistenceHandler(authorService))
+                        .SetNext(new BookAdditionHandler(bookService));
+        }
 
         //Authors methods
         public async Task<IReadOnlyList<AuthorDto>> GetAllAuthors()
@@ -48,13 +62,17 @@ namespace LibraryWebAPI.BusinessLogic.Facade
 
         public async Task<IReadOnlyList<BookDto>> GetBooksByGenre(Genre bookGenre)
         {
-            var books = await _bookService.GetAll();
-            return books.Where(b => b.Genre == bookGenre).ToList();
+            return await _bookService.GetByGenre(bookGenre);
+        }
+
+        public async Task<IReadOnlyList<BookDto>> GetBooksByTitle(string bookTitle)
+        {
+            return await _bookService.GetByTitle(bookTitle);
         }
 
         public async Task AddBook(BookDto bookDto)
         {
-            await _bookService.Add(bookDto);
+            await _bookHandler.Handle(bookDto);
         }
 
         public async Task UpdateBook(BookDto bookDto)
@@ -65,6 +83,49 @@ namespace LibraryWebAPI.BusinessLogic.Facade
         public async Task DeleteBook(string bookId)
         {
             await _bookService.Delete(bookId);
+        }
+
+        public async Task<StatisticsDto> GetStatistics()
+        {
+            var authors = await _authorService.GetAll();
+            var books = await _bookService.GetAll();
+
+            var visitor = new StatisticsVisitor();
+
+            foreach (var author in authors)
+            {
+                author.Accept(visitor);
+            }
+
+            foreach (var book in books)
+            {
+                book.Accept(visitor);
+            }
+
+            var statistics = new StatisticsDto(
+                authorsCount: visitor.AuthorCount,
+                booksCount: visitor.BookCount);
+
+            return statistics;
+        }
+
+        public async Task<IReadOnlyList<BookDto>> SearchBooks(string criteria, BookSearchType searchType)
+        {
+            var searchContext = new SearchContext();
+
+            switch (searchType)
+            {
+                case BookSearchType.Title:
+                    searchContext.SetSearchStrategy(new SearchByTitleStrategy(_bookService));
+                    break;
+                case BookSearchType.Genre:
+                    searchContext.SetSearchStrategy(new SearchByGenreStrategy(_bookService));
+                    break;
+                default:
+                    throw new ArgumentException("Invalid search type specified.");
+            }
+
+            return await searchContext.SearchAsync(criteria);
         }
     }
 }

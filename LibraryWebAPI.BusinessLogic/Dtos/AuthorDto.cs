@@ -1,6 +1,8 @@
-﻿namespace LibraryWebAPI.BusinessLogic.Dtos
+﻿using LibraryWebAPI.BusinessLogic.Visitor;
+
+namespace LibraryWebAPI.BusinessLogic.Dtos
 {
-    public class AuthorDto : IEquatable<AuthorDto>
+    public class AuthorDto : IEquatable<AuthorDto>, IVisitable
     {
         public static readonly AuthorDto Default =
             new (string.Empty, string.Empty, string.Empty);
@@ -26,6 +28,11 @@
         public override int GetHashCode()
         {
             return HashCode.Combine(Id, Name, Lastname);
+        }
+
+        public void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }
