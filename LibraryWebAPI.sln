@@ -5,15 +5,20 @@ VisualStudioVersion = 17.10.35201.131
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryWebAPI", "LibraryWebAPI\LibraryWebAPI.csproj", "{6C41784E-E517-4B78-A884-7B3E024D5E75}"
 	ProjectSection(ProjectDependencies) = postProject
-		{4DC15FCF-B54A-46C8-BA93-F4F7F0DC461E} = {4DC15FCF-B54A-46C8-BA93-F4F7F0DC461E}
-		{73AB721C-1CC6-4E5F-A507-6AE8B1623670} = {73AB721C-1CC6-4E5F-A507-6AE8B1623670}
+		{93A4E6FD-00DD-4259-A770-B952F2439F0F} = {93A4E6FD-00DD-4259-A770-B952F2439F0F}
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryWebAPI.Infrastructure", "LibraryWebAPI.Infrastructure\LibraryWebAPI.Infrastructure.csproj", "{BBA7AB84-9203-42EA-B159-F87AF1834141}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5AA121A4-C28E-44C3-BC0D-18BFDDAF4D64} = {5AA121A4-C28E-44C3-BC0D-18BFDDAF4D64}
+	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryWebAPI.DataAccess", "LibraryWebAPI.DataAccess\LibraryWebAPI.DataAccess.csproj", "{73AB721C-1CC6-4E5F-A507-6AE8B1623670}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryWebAPI.Domain", "LibraryWebAPI.Domain\LibraryWebAPI.Domain.csproj", "{5AA121A4-C28E-44C3-BC0D-18BFDDAF4D64}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryWebAPI.BusinessLogic", "LibraryWebAPI.BusinessLogic\LibraryWebAPI.BusinessLogic.csproj", "{4DC15FCF-B54A-46C8-BA93-F4F7F0DC461E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryWebAPI.Application", "LibraryWebAPI.Application\LibraryWebAPI.Application.csproj", "{93A4E6FD-00DD-4259-A770-B952F2439F0F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BBA7AB84-9203-42EA-B159-F87AF1834141} = {BBA7AB84-9203-42EA-B159-F87AF1834141}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,14 +34,14 @@ Global
 		{BBA7AB84-9203-42EA-B159-F87AF1834141}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBA7AB84-9203-42EA-B159-F87AF1834141}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBA7AB84-9203-42EA-B159-F87AF1834141}.Release|Any CPU.Build.0 = Release|Any CPU
-		{73AB721C-1CC6-4E5F-A507-6AE8B1623670}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{73AB721C-1CC6-4E5F-A507-6AE8B1623670}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{73AB721C-1CC6-4E5F-A507-6AE8B1623670}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{73AB721C-1CC6-4E5F-A507-6AE8B1623670}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4DC15FCF-B54A-46C8-BA93-F4F7F0DC461E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4DC15FCF-B54A-46C8-BA93-F4F7F0DC461E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4DC15FCF-B54A-46C8-BA93-F4F7F0DC461E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4DC15FCF-B54A-46C8-BA93-F4F7F0DC461E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AA121A4-C28E-44C3-BC0D-18BFDDAF4D64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AA121A4-C28E-44C3-BC0D-18BFDDAF4D64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AA121A4-C28E-44C3-BC0D-18BFDDAF4D64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AA121A4-C28E-44C3-BC0D-18BFDDAF4D64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93A4E6FD-00DD-4259-A770-B952F2439F0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93A4E6FD-00DD-4259-A770-B952F2439F0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93A4E6FD-00DD-4259-A770-B952F2439F0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93A4E6FD-00DD-4259-A770-B952F2439F0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

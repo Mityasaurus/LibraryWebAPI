@@ -13,8 +13,7 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <ProjectReference Include="..\LibraryWebAPI.BusinessLogic\LibraryWebAPI.BusinessLogic.csproj" />
-    <ProjectReference Include="..\LibraryWebAPI.DataAccess\LibraryWebAPI.DataAccess.csproj" />
+    <ProjectReference Include="..\LibraryWebAPI.Application\LibraryWebAPI.Application.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,5 @@
-using LibraryWebAPI.DataAccess.Installers;
-using LibraryWebAPI.BusinessLogic.Installers;
+using LibraryWebAPI.Infrastructure.Persistence.Installers;
+using LibraryWebAPI.Application.Installers;
 
 var builder = WebApplication.CreateBuilder(args);
 

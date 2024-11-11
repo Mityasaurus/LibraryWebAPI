@@ -1,5 +1,5 @@
-﻿using LibraryWebAPI.BusinessLogic.Dtos;
-using LibraryWebAPI.BusinessLogic.Facade;
+﻿using LibraryWebAPI.Application.Dtos;
+using LibraryWebAPI.Application.Facade;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryWebAPI.Controllers
