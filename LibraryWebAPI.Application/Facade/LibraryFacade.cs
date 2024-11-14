@@ -1,6 +1,9 @@
 ﻿using LibraryWebAPI.Application.ChainOfResponsibility.Book;
 using LibraryWebAPI.Application.ChainOfResponsibility.Book.Handlers;
 using LibraryWebAPI.Application.Contracts;
+using LibraryWebAPI.Application.CQRS.Commands.Author;
+using LibraryWebAPI.Application.CQRS.Mediator;
+using LibraryWebAPI.Application.CQRS.Queries.Author;
 using LibraryWebAPI.Application.Dtos;
 using LibraryWebAPI.Application.Strategy.Search;
 using LibraryWebAPI.Application.Visitor;
@@ -13,43 +16,48 @@ namespace LibraryWebAPI.Application.Facade
         private readonly IAuthorService _authorService;
         private readonly IBookService _bookService;
         private readonly IBookHandler _bookHandler;
+        private readonly IMediator _mediator;
 
-        public LibraryFacade(IAuthorService authorService, IBookService bookService)
+        public LibraryFacade(IAuthorService authorService, IBookService bookService, IMediator mediator)
         {
             _authorService = authorService;
             _bookService = bookService;
+            _mediator = mediator;
             _bookHandler = new BookValidationHandler();
             _bookHandler.SetNext(new AuthorExistenceHandler(authorService))
                         .SetNext(new BookAdditionHandler(bookService));
         }
 
-        //Authors methods
+        // Authors methods (with command/queries logic)
         public async Task<IReadOnlyList<AuthorDto>> GetAllAuthors()
         {
-            return await _authorService.GetAll();
+            return await _mediator.Send(new GetAllAuthorsQuery());
         }
 
-        public async Task<AuthorDto> GetAuthor(string authodId)
+        public async Task<AuthorDto> GetAuthor(string authorId)
         {
-            return await _authorService.Get(authodId);
+            return await _mediator.Send(new GetAuthorByIdQuery(authorId));
         }
 
         public async Task AddAuthor(AuthorDto authorDto)
         {
-            await _authorService.Add(authorDto);
+            var command = new AddAuthorCommand(authorDto);
+            await _mediator.Send(command);
         }
 
         public async Task UpdateAuthor(AuthorDto authorDto)
         {
-            await _authorService.Update(authorDto);
+            var command = new UpdateAuthorCommand(authorDto);
+            await _mediator.Send(command);
         }
 
-        public async Task DeleteAuthor(string authodId)
+        public async Task DeleteAuthor(string authorId)
         {
-            await _authorService.Delete(authodId);
+            var command = new DeleteAuthorCommand(authorId);
+            await _mediator.Send(command);
         }
 
-        //Books methods
+        // Books methods
         public async Task<IReadOnlyList<BookDto>> GetAllBooks()
         {
             return await _bookService.GetAll();
