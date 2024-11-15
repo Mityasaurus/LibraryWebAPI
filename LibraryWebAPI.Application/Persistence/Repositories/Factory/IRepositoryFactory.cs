@@ -1,6 +1,6 @@
 ﻿using LibraryWebAPI.Domain.Entities;
 
-namespace LibraryWebAPI.Infrastructure.Persistence.Repositories.Factory
+namespace LibraryWebAPI.Application.Persistence.Repositories.Factory
 {
     public interface IRepositoryFactory
     {

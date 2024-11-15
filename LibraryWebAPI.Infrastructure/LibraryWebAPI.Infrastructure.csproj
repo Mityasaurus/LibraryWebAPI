@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LibraryWebAPI.Domain\LibraryWebAPI.Domain.csproj" />
+    <ProjectReference Include="..\LibraryWebAPI.Application\LibraryWebAPI.Application.csproj" />
   </ItemGroup>
 
 </Project>

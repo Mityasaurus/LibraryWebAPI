@@ -1,7 +1,4 @@
-﻿using LibraryWebAPI.Application.Contracts;
-using LibraryWebAPI.Application.Services.Proxy;
-using LibraryWebAPI.Application.Services;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using LibraryWebAPI.Application.CQRS.Mediator;
 using LibraryWebAPI.Application.CQRS.Commands.Author;
 using LibraryWebAPI.Application.CQRS.Handlers.Author;

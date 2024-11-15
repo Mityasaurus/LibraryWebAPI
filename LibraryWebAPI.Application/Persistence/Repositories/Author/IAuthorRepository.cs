@@ -1,7 +1,7 @@
 ﻿using LibraryWebAPI.Domain.Entities;
 using System.Collections.ObjectModel;
 
-namespace LibraryWebAPI.Infrastructure.Persistence.Repositories.Author
+namespace LibraryWebAPI.Application.Persistence.Repositories.Author
 {
     public interface IAuthorRepository : IRepository<AuthorEntity>
     {

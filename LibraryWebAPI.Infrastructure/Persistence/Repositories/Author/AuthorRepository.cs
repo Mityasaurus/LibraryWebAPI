@@ -1,5 +1,7 @@
 ﻿using LibraryWebAPI.Domain.Entities;
 using System.Collections.ObjectModel;
+using LibraryWebAPI.Application.Persistence;
+using LibraryWebAPI.Application.Persistence.Repositories.Author;
 
 namespace LibraryWebAPI.Infrastructure.Persistence.Repositories.Author
 {

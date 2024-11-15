@@ -1,7 +1,7 @@
 ﻿using LibraryWebAPI.Domain.Entities;
 using LibraryWebAPI.Domain.Enums;
 
-namespace LibraryWebAPI.Infrastructure.Persistence
+namespace LibraryWebAPI.Application.Persistence
 {
     public class LibraryContext
     {

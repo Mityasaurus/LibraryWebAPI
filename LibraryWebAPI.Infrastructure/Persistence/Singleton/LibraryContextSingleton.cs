@@ -1,5 +1,6 @@
 ﻿using LibraryWebAPI.Domain.Entities;
 using LibraryWebAPI.Domain.Enums;
+using LibraryWebAPI.Application.Persistence;
 
 namespace LibraryWebAPI.Infrastructure.Persistence.Singleton
 {

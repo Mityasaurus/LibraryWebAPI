@@ -1,9 +1,8 @@
 ﻿using LibraryWebAPI.Application.Contracts;
 using LibraryWebAPI.Application.Dtos;
-using LibraryWebAPI.Infrastructure.Persistence;
+using LibraryWebAPI.Application.Persistence;
 using LibraryWebAPI.Domain.Entities;
-using LibraryWebAPI.Infrastructure.Persistence.Repositories.Author;
-using LibraryWebAPI.Infrastructure.Persistence.Repositories.Factory;
+using LibraryWebAPI.Application.Persistence.Repositories.Author;
 
 namespace LibraryWebAPI.Application.Services
 {
@@ -11,10 +10,11 @@ namespace LibraryWebAPI.Application.Services
     {
         private readonly IAuthorRepository _authorRepository;
 
-        public AuthorService(LibraryContext context)
+        public AuthorService(IAuthorRepository authorRepository)
         {
-            var factory = RepositoryFactory.Instance;
-            _authorRepository = (IAuthorRepository)factory.Instantiate<AuthorEntity>(context);
+            //var factory = RepositoryFactory.Instance;
+            //_authorRepository = (IAuthorRepository)factory.Instantiate<AuthorEntity>(context);
+            _authorRepository = authorRepository;
         }
 
         public async Task<IReadOnlyList<AuthorDto>> GetAll()

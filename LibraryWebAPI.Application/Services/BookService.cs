@@ -1,10 +1,9 @@
 ﻿using LibraryWebAPI.Application.Contracts;
 using LibraryWebAPI.Application.Dtos;
-using LibraryWebAPI.Infrastructure.Persistence;
+using LibraryWebAPI.Application.Persistence;
 using LibraryWebAPI.Domain.Entities;
-using LibraryWebAPI.Infrastructure.Persistence.Repositories.Author;
-using LibraryWebAPI.Infrastructure.Persistence.Repositories.Book;
-using LibraryWebAPI.Infrastructure.Persistence.Repositories.Factory;
+using LibraryWebAPI.Application.Persistence.Repositories.Author;
+using LibraryWebAPI.Application.Persistence.Repositories.Book;
 using LibraryWebAPI.Domain.Enums;
 
 namespace LibraryWebAPI.Application.Services
@@ -14,11 +13,13 @@ namespace LibraryWebAPI.Application.Services
         private readonly IAuthorRepository _authorRepository;
         private readonly IBookRepository _bookRepository;
 
-        public BookService(LibraryContext context)
+        public BookService(IAuthorRepository authorRepository, IBookRepository bookRepository)
         {
-            var factory = RepositoryFactory.Instance;
-            _authorRepository = (IAuthorRepository)factory.Instantiate<AuthorEntity>(context);
-            _bookRepository = (IBookRepository)factory.Instantiate<BookEntity>(context);
+            //var factory = RepositoryFactory.Instance;
+            //_authorRepository = (IAuthorRepository)factory.Instantiate<AuthorEntity>(context);
+            //_bookRepository = (IBookRepository)factory.Instantiate<BookEntity>(context);
+            _authorRepository = authorRepository;
+            _bookRepository = bookRepository;
         }
 
         public async Task<IReadOnlyList<BookDto>> GetAll()

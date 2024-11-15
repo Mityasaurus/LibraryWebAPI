@@ -14,6 +14,7 @@
 	
   <ItemGroup>
     <ProjectReference Include="..\LibraryWebAPI.Application\LibraryWebAPI.Application.csproj" />
+	<ProjectReference Include="..\LibraryWebAPI.Infrastructure\LibraryWebAPI.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 ﻿using LibraryWebAPI.Domain.Entities;
 using System.Collections.ObjectModel;
 
-namespace LibraryWebAPI.Infrastructure.Persistence.Repositories
+namespace LibraryWebAPI.Application.Persistence.Repositories
 {
     public interface IRepository<T> where T : BaseEntity
     {
