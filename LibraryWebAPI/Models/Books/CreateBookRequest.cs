@@ -1,4 +1,4 @@
-﻿using LibraryWebAPI.Infrastructure.Enums;
+﻿using LibraryWebAPI.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace LibraryWebAPI.Models.Books

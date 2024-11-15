@@ -1,7 +1,7 @@
-﻿using LibraryWebAPI.BusinessLogic.Builder;
-using LibraryWebAPI.BusinessLogic.Dtos;
-using LibraryWebAPI.BusinessLogic.Facade;
-using LibraryWebAPI.Infrastructure.Enums;
+﻿using LibraryWebAPI.Application.Builder;
+using LibraryWebAPI.Application.Dtos;
+using LibraryWebAPI.Application.Facade;
+using LibraryWebAPI.Domain.Enums;
 using LibraryWebAPI.Models.Books;
 using Microsoft.AspNetCore.Mvc;
 

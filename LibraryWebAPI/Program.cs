@@ -1,5 +1,5 @@
-using LibraryWebAPI.DataAccess.Installers;
-using LibraryWebAPI.BusinessLogic.Installers;
+using LibraryWebAPI.Infrastructure.Persistence.Installers;
+using LibraryWebAPI.Application.Installers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +9,8 @@ builder.Services
     .AddBooks()
     .AddAuthors()
     .AddLibraryFacade()
-    .AddMemoryCache();
+    .AddMemoryCache()
+    .AddCQRS();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
